@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="qx-editor"></div>
+
+    <script src="https://at.alicdn.com/t/font_2801864_7e8r7fmkndh.js"></script>
+    <script>
+        function addStyle(cssText){
+            let style = document.createElement("style");
+            let head = document.head || document.getElementsByTagName("head")[0];
+            style.type = "text/css";
+
+            let textNode = document.createTextNode(cssText);
+            style.appendChild(textNode);
+            head.appendChild(style);
+        }
+
+        class Editor{
+            constructor(el, callback){
+                // 工具栏
+                this.menu = [
+                    {
+                        title: "背景颜色",
+                        operation: "backColor",
+                        icon: "icon-717bianjiqi_zitibeijingyanse"
+                    },
+                    {
+                        title: "字号",
+                        operation: "fontSize",
+                        icon: "icon-zihao"
+                    },
+                    {
+                        title: "字体",
+                        operation: "fontName",
+                        icon: "icon-zitifont4"
+                    },
+                    {
+                        title: "文字颜色",
+                        operation: "foreColor",
+                        icon: "icon-jurassic_font-color"
+                    },
+                    {
+                        title: "加粗",
+                        operation: "bold",
+                        icon: "icon-jiacu"
+                    },
+                    {
+                        title: "倾斜",
+                        operation: "italic",
+                        icon: "icon-xieti"
+                    },
+                    {
+                        title: "下划线",
+                        operation: "underline",
+                        icon: "icon-Underline"
+                    },
+                    {
+                        title: "删除线",
+                        operation: "strikeThrough",
+                        icon: "icon-shanchuxian"
+                    },
+                    {
+                        title: "左对齐",
+                        operation: "justifyLeft",
+                        icon: "icon-zuoduiqi"
+                    },
+                    {
+                        title: "居中对齐",
+                        operation: "justifyCenter",
+                        icon: "icon-juzhongduiqi"
+                    },
+                    {
+                        title: "右对齐",
+                        operation: "justifyRight",
+                        icon: "icon-youduiqi"
+                    },
+                    {
+                        title: "缩进",
+                        operation: "indent",
+                        icon: "icon-yousuojin"
+                    },
+                    {
+                        title: "取消缩进",
+                        operation: "outdent",
+                        icon: "icon-zuosuojin"
+                    },
+                    {
+                        title: "有序列表",
+                        operation: "insertOrderedList",
+                        icon: "icon-orderedlist"
+                    },
+                    {
+                        title: "无序列表",
+                        operation: "insertUnorderedList",
+                        icon: "icon-unorderedList"
+                    },
+                    {
+                        title: "上标",
+                        operation: "superscript",
+                        icon: "icon-shangbiao"
+                    },
+                    {
+                        title: "下标",
+                        operation: "subscript",
+                        icon: "icon-xiabiao"
+                    },
+                    {
+                        title: "创建链接",
+                        operation: "createLink",
+                        icon: "icon-lianjie"
+                    },
+                    {
+                        title: "取消链接",
+                        operation: "unlink",
+                        icon: "icon-quxiaolianjie"
+                    },
+                    {
+                        title: "水平线",
+                        operation: "insertHorizontalRule",
+                        icon: "icon-huizhishuipingxian"
+                    },
+                    {
+                        title: "表格",
+                        operation: "table",
+                        icon: "icon-dashujukeshihuaico-"
+                    },
+                    {
+                        title: "附件",
+                        operation: "files",
+                        icon: "icon-fujian-tianchong"
+                    },
+                    {
+                        title: "图片",
+                        operation: "insertImage",
+                        icon: "icon-tupian"
+                    },
+                    {
+                        title: "格式化",
+                        operation: "removeFormat",
+                        icon: "icon-qingchu"
+                    }
+                ],
+                this.el = document.getElementById(el);
+                this.width = "100%";
+                this.height = "200px";
+                this.maxWindow = false;
+                
+
+                // 离线dom
+                this.el.style.display = "none";
+                let ulNode = document.createElement("ul");
+                ulNode.setAttribute("class", "qx-menu");
+
+                this.menu.forEach(item => {
+                    let liNode = document.createElement("li");
+                    let divNode = document.createElement("div");
+                    divNode.classList.add("qx-menu-item");
+                    divNode.setAttribute("data-operation", item.operation);
+                    let innerHtml = `
+                        <svg class="qx-icon" aria-hidden="true">
+                            <use xlink:href="#${item.icon}"></use>
+                        </svg>
+                    `;
+
+                    divNode.innerHTML = innerHtml;
+
+                    divNode.setAttribute("title", item.title);
+
+                    liNode.appendChild(divNode);
+
+                    ulNode.appendChild(liNode);
+                })
+
+                this.el.appendChild(ulNode);
+                let contentNode = document.createElement("div");
+                contentNode.classList.add("qx-editor-content");
+                contentNode.setAttribute("contenteditable", "true");
+                this.el.appendChild(contentNode);
+                this.el.style.display = "block";
+            }
+        }
+    </script>
+
+
+    <script>
+        let e = new Editor("qx-editor");
+        // e.create()
+    </script>
+</body>
+</html>
